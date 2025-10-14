@@ -20,5 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("tsp/", include("TSP.urls")),
+    path("email-validator/", include("email_validator.api.urls")),
 
 ]
