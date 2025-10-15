@@ -6,3 +6,4 @@ python-dotenv
 PyJWT
 psycopg2-binary
 dnspython
+dj-database-url

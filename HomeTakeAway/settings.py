@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,18 +80,27 @@ WSGI_APPLICATION = 'HomeTakeAway.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "home",       
-        "USER": "postgres",            
-        "PASSWORD": "shrestha",   
-        "HOST": "localhost",
-        "PORT": "5432",
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+
+#for render
+if DATABASE_URL and "localhost" not in DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
-}
-
-
+#for local development (no SSL)
+else:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL or "postgresql://postgres:shrestha@localhost:5432/home",
+            conn_max_age=600,
+            ssl_require=False,
+        )
+    }
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
