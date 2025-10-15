@@ -5,3 +5,4 @@ django-cors-headers
 python-dotenv
 PyJWT
 psycopg2-binary
+dnspython
